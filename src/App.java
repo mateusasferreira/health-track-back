@@ -35,6 +35,12 @@ public class App {
 
         System.out.println(registro);
 
+        dadosDao.delete(2);
+
+        RegistroDados registroDeletado = dadosDao.get(2);
+
+        System.out.println(registroDeletado);
+
         truncate();
     }
 

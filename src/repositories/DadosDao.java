@@ -22,10 +22,9 @@ public class DadosDao implements IDao<RegistroDados> {
 		
 		conn = ConnManager.getInstance().getConn();
 
-		pstmt = conn.prepareStatement("INSERT INTO T_DADOS" + "(peso, altura, imc)" + "VALUES (?, ?, ?)");
+		pstmt = conn.prepareStatement("INSERT INTO T_DADOS" + "(peso, altura)" + "VALUES (?, ?)");
 		pstmt.setFloat(1, dados.getPeso());
 		pstmt.setFloat(2, dados.getAltura());
-		pstmt.setFloat(3, dados.getImc());
 
 		pstmt.executeUpdate();
 	
@@ -137,14 +136,5 @@ public class DadosDao implements IDao<RegistroDados> {
 				e.printStackTrace();
 			}
 		}
-		
-	
-
-	// @Override
-	// public void delete(long id) {
-		
-		
-	// }
-	
 }
 

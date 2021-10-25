@@ -16,7 +16,7 @@ public class RegistroDados {
     public RegistroDados(long id, float altura, float peso, String data) {
         this.altura = altura;
         this.peso = peso;
-        this.imc = peso / altura * altura;
+        this.imc = peso / (altura * altura);
         this.id = id;
         this.data = data;
     }  
