@@ -14,10 +14,10 @@ public class App {
         
         DadosDao dadosDao = new DadosDao();
             
-        dadosDao.insert(new RegistroDados(1.8f, 76f));
-        dadosDao.insert(new RegistroDados(1.8f, 75f));
-        dadosDao.insert(new RegistroDados(1.8f, 75f));
-        dadosDao.insert(new RegistroDados(1.8f, 77f));
+        dadosDao.insert(new RegistroDados(76f, 1.8f));
+        dadosDao.insert(new RegistroDados(75f, 1.8f));
+        dadosDao.insert(new RegistroDados(75f, 1.8f));
+        dadosDao.insert(new RegistroDados(76f, 1.8f));
 
         List<RegistroDados> todosDados = dadosDao.getAll();
 
@@ -28,6 +28,8 @@ public class App {
         }
 
         System.out.println("uma query só: ");
+
+        dadosDao.update(1, new RegistroDados(74f, 1.8f));
 
         RegistroDados registro = dadosDao.get(1);
 

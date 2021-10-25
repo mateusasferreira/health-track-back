@@ -117,24 +117,34 @@ public class DadosDao implements IDao<RegistroDados> {
 		}
 	} 
 
-	/*
 	@Override
-	public void set(Object informacao) {
+	public void update(long id, RegistroDados dados) {
+		try {
 		
+			conn = ConnManager.getInstance().getConn();
+	
+			pstmt = conn.prepareStatement("UPDATE T_DADOS SET peso = ?, altura = ? WHERE id = ?");
+			pstmt.setFloat(1, dados.getPeso());
+			pstmt.setFloat(2, dados.getAltura());
+			pstmt.setFloat(3, id);
+			pstmt.executeUpdate();
 		
-	}
+			} catch(SQLException e) {
+				System.out.println(e);
+				e.printStackTrace();
+			} catch (Exception e){
+				System.out.println(e);
+				e.printStackTrace();
+			}
+		}
+		
+	
 
-	@Override
-	public void update(long id, Object informacao) {
+	// @Override
+	// public void delete(long id) {
 		
 		
-	}
-
-	@Override
-	public void delete(long id) {
-		
-		
-	}
-	*/
+	// }
+	
 }
 
