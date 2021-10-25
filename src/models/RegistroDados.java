@@ -1,21 +1,25 @@
+package models;
 /**
  * Classe respons�vel por armazenar os dados de evolu��o f�sica do usu�rio
  */
 public class RegistroDados {
-    private int id;
+    private long id;
     private float altura;
     private float peso;
     private float imc;
     private String data; 
 
-    public RegistroDados(int id, float altura, float peso, float imc, String data) {
-        this.altura = altura;
-        this.peso = peso;
-        this.imc = imc;
-        this.id = id;
-        this.data = data;
+    public RegistroDados(float altura, float peso){
+        this(0, altura, peso, null);
     }
 
+    public RegistroDados(long id, float altura, float peso, String data) {
+        this.altura = altura;
+        this.peso = peso;
+        this.imc = peso / altura * altura;
+        this.id = id;
+        this.data = data;
+    }  
   
     /** 
      * Retorna a altura
@@ -47,7 +51,7 @@ public class RegistroDados {
         return data;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
     

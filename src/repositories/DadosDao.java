@@ -1,3 +1,4 @@
+package repositories;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,32 +7,38 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import config.ConnManager;
+import interfaces.IDao;
+import models.RegistroDados;
+
 	
-public class DadosDao implements IDadosDao {
+public class DadosDao implements IDao<RegistroDados> {
 	private Connection conn;
 	private PreparedStatement pstmt = null;
 
 	@Override
-	public void insert(float peso, float altura){
+	public void insert(RegistroDados dados){
 		try {
-		float imc = peso / (altura * altura);
+		
 		conn = ConnManager.getInstance().getConn();
 
 		pstmt = conn.prepareStatement("INSERT INTO T_DADOS" + "(peso, altura, imc)" + "VALUES (?, ?, ?)");
-		pstmt.setFloat(1, peso);
-		pstmt.setFloat(2, altura);
-		pstmt.setFloat(3, imc);
+		pstmt.setFloat(1, dados.getPeso());
+		pstmt.setFloat(2, dados.getAltura());
+		pstmt.setFloat(3, dados.getImc());
 
 		pstmt.executeUpdate();
 	
 		} catch(SQLException e) {
 			System.out.println(e);
 			e.getStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	public RegistroDados get(int id) {	
+	public RegistroDados get(long id) {	
 		
 		RegistroDados dados = null; 
 		
@@ -39,21 +46,22 @@ public class DadosDao implements IDadosDao {
 			conn = ConnManager.getInstance().getConn();
 
 			pstmt = conn.prepareStatement("SELECT * FROM T_DADOS WHERE id = ?;");
-			pstmt.setInt(1, id);
+			pstmt.setLong(1, id);
 			ResultSet result = pstmt.executeQuery();
 
 			while(result.next()){
-				int id_dados = result.getInt("id");
+				long id_dados = result.getInt("id");
 				float peso = result.getFloat("peso");
 				float altura = result.getFloat("altura");
-				float imc = result.getFloat("imc");
 				String data = result.getString("data");
 
-				dados =  new RegistroDados(id_dados, peso, altura, imc, data);
+				dados =  new RegistroDados(id_dados, peso, altura, data);
 			}
 		} catch (SQLException e){
 			System.out.println(e);
 			e.getStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 
 		return dados;
@@ -76,10 +84,9 @@ public class DadosDao implements IDadosDao {
 			int id_dados = result.getInt("id");
 			float peso = result.getFloat("peso");
 			float altura = result.getFloat("altura");
-			float imc = result.getFloat("imc");
 			String data = result.getString("data");
 
-			RegistroDados dados =  new RegistroDados(id_dados, peso, altura, imc, data);
+			RegistroDados dados =  new RegistroDados(id_dados, peso, altura, data);
 
 			listaDados.add(dados);
 		}
@@ -87,10 +94,28 @@ public class DadosDao implements IDadosDao {
 		} catch ( SQLException e ) {
 			System.out.println(e);
 			e.getStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 
 		return listaDados;
 	}
+
+	public void delete(long id) {
+		try {
+			conn = ConnManager.getInstance().getConn();
+
+			pstmt = conn.prepareStatement("DELETE FROM T_DADOS WHERE id = ?;");
+			pstmt.setLong(1, id);
+			pstmt.executeUpdate();
+			
+		} catch( SQLException e){
+			System.out.println(e);
+			e.getStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	} 
 
 	/*
 	@Override

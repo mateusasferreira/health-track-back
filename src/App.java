@@ -1,4 +1,12 @@
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+
+import config.ConnManager;
+import models.RegistroDados;
+import repositories.DadosDao;
+
 
 public class App {
 
@@ -6,7 +14,10 @@ public class App {
         
         DadosDao dadosDao = new DadosDao();
             
-        dadosDao.insert(78f, 1.8f);
+        dadosDao.insert(new RegistroDados(1.8f, 76f));
+        dadosDao.insert(new RegistroDados(1.8f, 75f));
+        dadosDao.insert(new RegistroDados(1.8f, 75f));
+        dadosDao.insert(new RegistroDados(1.8f, 77f));
 
         List<RegistroDados> todosDados = dadosDao.getAll();
 
@@ -21,5 +32,24 @@ public class App {
         RegistroDados registro = dadosDao.get(1);
 
         System.out.println(registro);
+
+        truncate();
+    }
+
+    public static void truncate (){
+       try {
+        Connection conn = ConnManager.getInstance().getConn();
+        
+        Statement stm = conn.createStatement();
+
+        stm.executeUpdate("TRUNCATE TABLE T_DADOS");
+
+        System.out.println("truncate ok");
+       } catch(SQLException e) {
+        System.out.println(e);
+        e.getStackTrace();
+       } catch (Exception e){
+        e.printStackTrace();
+    }
     }
 }
