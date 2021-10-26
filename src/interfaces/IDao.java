@@ -6,8 +6,6 @@ public interface IDao<T> {
 	T get(long id);
 	List<T> getAll();
 	
-	//void set(Object informacao);
-	void update(long id, T informacao);
+	void update(long id, T t);
 	void delete(long id);
-	
 }
