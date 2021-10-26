@@ -27,12 +27,17 @@ public class DadosDao implements IDao<RegistroDados> {
 		pstmt.setFloat(2, dados.getAltura());
 
 		pstmt.executeUpdate();
-	
+
 		} catch(SQLException e) {
 			System.out.println(e);
-			e.getStackTrace();
-		} catch (Exception e){
 			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				pstmt.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -56,16 +61,18 @@ public class DadosDao implements IDao<RegistroDados> {
 
 				dados =  new RegistroDados(id_dados, peso, altura, data);
 			}
+
 		} catch (SQLException e){
-			System.out.println(e);
-			e.getStackTrace();
-		} catch (Exception e){
 			e.printStackTrace();
-		}
-
+		} finally {
+				try {
+					conn.close();
+					pstmt.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		return dados;
-
-		
 	}
 
 	@Override
@@ -88,13 +95,18 @@ public class DadosDao implements IDao<RegistroDados> {
 			RegistroDados dados =  new RegistroDados(id_dados, peso, altura, data);
 
 			listaDados.add(dados);
+
 		}
 
 		} catch ( SQLException e ) {
-			System.out.println(e);
-			e.getStackTrace();
-		} catch (Exception e){
 			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				pstmt.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return listaDados;
@@ -107,12 +119,16 @@ public class DadosDao implements IDao<RegistroDados> {
 			pstmt = conn.prepareStatement("DELETE FROM T_DADOS WHERE id = ?;");
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
-			
+
 		} catch( SQLException e){
-			System.out.println(e);
-			e.getStackTrace();
-		} catch (Exception e){
 			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				pstmt.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	} 
 
@@ -127,13 +143,16 @@ public class DadosDao implements IDao<RegistroDados> {
 			pstmt.setFloat(2, dados.getAltura());
 			pstmt.setFloat(3, id);
 			pstmt.executeUpdate();
-		
+
 			} catch(SQLException e) {
-				System.out.println(e);
 				e.printStackTrace();
-			} catch (Exception e){
-				System.out.println(e);
-				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+					pstmt.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 }
